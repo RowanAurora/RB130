@@ -118,92 +118,78 @@ class TodoList
     text << @todos.map(&:to_s).join("\n")
     text
   end
+
+  def each 
+    @todos.each do |todo|
+      yield(todo)
+    end
+    self
+  end
+
+  def select 
+    counter = 0
+    result = TodoList.new(self.title)
+    while counter < @todos.size
+      result << @todos[counter] if yield(@todos[counter])
+      counter += 1
+    end
+    result
+  end
+
+  def find_by_title(string)
+    object = nil 
+    each do |todo|
+      object = todo if todo.title == string
+    end
+    object
+  end
+
+  def all_done 
+    select do |todo|
+      todo.done?
+    end
+  end
+
+  def all_not_done
+    select do |todo|
+      todo.done == false
+    end
+  end
+
+  def mark_done(string)
+    # find_by_title(string) ? find_by_title(string).done! : nil
+    each do |todo|
+      todo.done! if string == todo.title
+    end
+  end
+
+  def mark_all_done
+    # done!
+    each do |todo|
+      todo.done!
+    end
+  end
+
+  def mark_all_undone
+    # undone!
+    each do |todo|
+      todo.undone!
+    end
+  end
+  
 end
 
 
-# given
 todo1 = Todo.new("Buy milk")
 todo2 = Todo.new("Clean room")
 todo3 = Todo.new("Go to gym")
+
 list = TodoList.new("Today's Todos")
+list.add(todo1)
+list.add(todo2)
+list.add(todo3)
 
-# ---- Adding to the list -----
+todo1.done!
 
-# add
-list.add(todo1)                 # adds todo1 to end of list, returns list
-list.add(todo2)                 # adds todo2 to end of list, returns list
-list << (todo3)                 # adds todo3 to end of list, returns list
-#list.add(1)                     # raises TypeError with message "Can only add Todo objects"
-
-# # <<
-# # same behavior as add
-
-# # ---- Interrogating the list -----
-
-# size
-p list.size                       # returns 3
-
-# first
-p list.first                      # returns todo1, which is the first item in the list
-
-# last
-p list.last                       # returns todo3, which is the last item in the list
-
-#to_a
-p list.to_a                      # returns an array of all items in the list
-
-#done?
-p list.done?                     # returns true if all todos in the list are done, otherwise false
-
-# # ---- Retrieving an item in the list ----
-
-# item_at
-#list.item_at                    # raises ArgumentError
-list.item_at(1)                 # returns 2nd item in list (zero based index)
-#list.item_at(100)               # raises IndexError
-
-# # ---- Marking items in the list -----
-
-# # mark_done_at
-#list.mark_done_at               # raises ArgumentError
-list.mark_done_at(1)            # marks the 2nd item as done
-#list.mark_done_at(100)          # raises IndexError
-
-# # mark_undone_at
-# list.mark_undone_at             # raises ArgumentError
-# list.mark_undone_at(1)          # marks the 2nd item as not done,
-#  list.mark_undone_at(100)        # raises IndexError
-
-# # done!
-# list.done!                      # marks all items as done
-
-
-# # ---- Deleting from the list -----
-
-# # shift
-# puts list.shift                      # removes and returns the first item in list
-
-# # pop
-# puts list.pop                        # removes and returns the last item in list
-
-# # remove_at
-# list.remove_at                  # raises ArgumentError
-# puts list.remove_at(1)               # removes and returns the 2nd item
-# list.remove_at(100)             # raises IndexError
-
-# # ---- Outputting the list -----
-
-# # to_s
- puts list.to_s                      # returns string representation of the list
-
-# # ---- Today's Todos ----
-# # [ ] Buy milk
-# # [ ] Clean room
-# # [ ] Go to gym
-
-# # or, if any todos are done
-
-# # ---- Today's Todos ----
-# # [ ] Buy milk
-# # [X] Clean room
-# # [ ] Go to gym
+puts list.mark_all_undone   # you need to implement this metho
+puts list
