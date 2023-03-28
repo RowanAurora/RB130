@@ -13,7 +13,8 @@
 # p reduce(array, 10) { |acc, num| acc + num }                # => 25
 #p reduce(array) { |acc, num| acc + num if num.odd? }        # => NoMethodError: undefined method `+' for nil:NilClass
 
-# Extended reduce method that accepts alternate arguments
+# Extended reduce method that accepts alternate arguments.
+# second ternary in place to ensure that it will work even if second argument(acc) is incidentalyl the same as array[0]
 
 def reduce(array, acc = nil)
   acc ? counter = 0 : counter = 1
