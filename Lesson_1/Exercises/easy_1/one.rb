@@ -8,6 +8,15 @@ def one?(array)
   result == 1
 end
 
+def one?(array)
+  result = 0 
+  array.each do |item|
+    return false if result > 1 
+    result += 1 if yield(item)
+  end
+  result == 1
+end
+
 p one?([1, 3, 5, 6]) { |value| value.even? }    # -> true
 p one?([1, 3, 5, 7]) { |value| value.odd? }     # -> false
 p one?([2, 4, 6, 8]) { |value| value.even? }    # -> false

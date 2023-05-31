@@ -1,0 +1,18 @@
+{
+  "Minitest": {
+    "coverage": {
+      "/Users/rowan/Documents/GitHub/RB130/139_study/SecondPass/lesson2/car.rb": {
+        "lines": [
+          1,
+          1,
+          null,
+          1,
+          1,
+          null,
+          null
+        ]
+      }
+    },
+    "timestamp": 1685458850
+  }
+}
